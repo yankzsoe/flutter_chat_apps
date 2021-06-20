@@ -2,6 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import '../widgets/chat/new_message.dart';
+import '../widgets/chat/messages.dart';
+
 class ChatScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -40,34 +43,13 @@ class ChatScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: StreamBuilder(
-          stream: FirebaseFirestore.instance
-              .collection('chats/qbF6BToXEPKl05PqOcE5/messages')
-              .snapshots(),
-          builder: (ctx, streamSnapshot) {
-            return (streamSnapshot.connectionState == ConnectionState.waiting)
-                ? Center(
-                    child: CircularProgressIndicator(),
-                  )
-                : ListView.builder(
-                    itemCount: (streamSnapshot as AsyncSnapshot<
-                            QuerySnapshot<Map<String, dynamic>>>)
-                        .data!
-                        .docs
-                        .length,
-                    itemBuilder: (ctx, index) => Container(
-                      padding: EdgeInsets.all(8),
-                      child: Text(streamSnapshot.data!.docs[index]['text']),
-                    ),
-                  );
-          }),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () {
-          FirebaseFirestore.instance
-              .collection('chats/qbF6BToXEPKl05PqOcE5/messages')
-              .add({'text': 'this value add by clicking'});
-        },
+      body: Container(
+        child: Column(children: [
+          Expanded(
+            child: Messages(),
+          ),
+          NewMessage(),
+        ]),
       ),
     );
   }
