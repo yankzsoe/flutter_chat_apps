@@ -60,7 +60,7 @@ class _AuthScreenState extends State<AuthScreen> {
     } on PlatformException catch (err) {
       var message = "An error occured, please check your credential.";
       if (err.message != null) message = err.message!;
-      Scaffold.of(ctx).showSnackBar(SnackBar(
+      ScaffoldMessenger.of(ctx).showSnackBar(SnackBar(
         content: Text(message),
         backgroundColor: Theme.of(ctx).errorColor,
       ));
@@ -68,7 +68,7 @@ class _AuthScreenState extends State<AuthScreen> {
       setState(() {
         _isLoading = false;
       });
-      Scaffold.of(ctx).showSnackBar(SnackBar(
+      ScaffoldMessenger.of(ctx).showSnackBar(SnackBar(
         content: Text(err.toString()),
         backgroundColor: Theme.of(ctx).errorColor,
       ));

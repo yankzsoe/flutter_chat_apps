@@ -31,7 +31,7 @@ class _AuthFormState extends State<AuthForm> {
     final isValid = _formKey.currentState!.validate();
     FocusScope.of(context).unfocus();
     if (_userImageFile == null && !_isLogin) {
-      Scaffold.of(context).showSnackBar(SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text('Please pick an image.'),
         backgroundColor: Theme.of(context).errorColor,
       ));
@@ -126,13 +126,17 @@ class _AuthFormState extends State<AuthForm> {
                   ),
                   if (widget._isLoading) CircularProgressIndicator(),
                   if (!widget._isLoading)
-                    RaisedButton(
+                    ElevatedButton(
                       onPressed: _submit,
                       child: Text(_isLogin ? 'Login' : 'Signup'),
                     ),
                   if (!widget._isLoading)
-                    FlatButton(
-                      textColor: Theme.of(context).primaryColor,
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        textStyle: TextStyle(
+                          color: Theme.of(context).primaryColor,
+                        ),
+                      ),
                       onPressed: () {
                         setState(() {
                           _isLogin = !_isLogin;
